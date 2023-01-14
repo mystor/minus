@@ -20,10 +20,7 @@ fn test_kb_nav() {
     pager.rows = 5;
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Down,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Down, KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(pager.upper_mark + 1)),
             handle_input(ev, &pager)
@@ -31,10 +28,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Up,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(pager.upper_mark - 1)),
             handle_input(ev, &pager)
@@ -42,10 +36,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('g'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('g'), KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(0)),
             handle_input(ev, &pager)
@@ -53,10 +44,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::PageUp,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::PageUp, KeyModifiers::NONE));
         assert_eq!(
             // rows is 5, therefore upper_mark = upper_mark - rows -1
             Some(InputEvent::UpdateUpperMark(8)),
@@ -65,10 +53,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('g'),
-            modifiers: KeyModifiers::SHIFT,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('g'), KeyModifiers::SHIFT));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(usize::MAX - 1)),
             handle_input(ev, &pager)
@@ -76,10 +61,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('G'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('G'), KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(usize::MAX - 1)),
             handle_input(ev, &pager)
@@ -87,10 +69,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('G'),
-            modifiers: KeyModifiers::SHIFT,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('G'), KeyModifiers::SHIFT));
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(usize::MAX - 1)),
             handle_input(ev, &pager)
@@ -98,10 +77,7 @@ fn test_kb_nav() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::PageDown,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::PageDown, KeyModifiers::NONE));
         assert_eq!(
             // rows is 5, therefore upper_mark = upper_mark - rows -1
             Some(InputEvent::UpdateUpperMark(16)),
@@ -111,10 +87,7 @@ fn test_kb_nav() {
 
     {
         // Half page down
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('d'),
-            modifiers: KeyModifiers::CONTROL,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('d'), KeyModifiers::CONTROL));
         // Rows is 5 and upper_mark is at 12 so result should be 14
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(14)),
@@ -124,10 +97,7 @@ fn test_kb_nav() {
 
     {
         // Half page up
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('u'),
-            modifiers: KeyModifiers::CONTROL,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('u'), KeyModifiers::CONTROL));
         // Rows is 5 and upper_mark is at 12 so result should be 10
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(10)),
@@ -136,10 +106,7 @@ fn test_kb_nav() {
     }
     {
         // Space for page down
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char(' '),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char(' '), KeyModifiers::NONE));
         // rows is 5, therefore upper_mark = upper_mark - rows -1
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(16)),
@@ -148,10 +115,7 @@ fn test_kb_nav() {
     }
     {
         // Enter key for one line down when no message on prompt
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Enter,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Enter, KeyModifiers::NONE));
         // therefore upper_mark += 1
         assert_eq!(
             Some(InputEvent::UpdateUpperMark(13)),
@@ -166,10 +130,7 @@ fn test_restore_prompt() {
     pager.message = Some("Prompt message".to_string());
     {
         // Enter key for one line down when no message on prompt
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Enter,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Enter, KeyModifiers::NONE));
         // therefore upper_mark += 1
         assert_eq!(
             Some(InputEvent::RestorePrompt),
@@ -220,10 +181,7 @@ fn test_saturation() {
     pager.rows = 5;
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Down,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Down, KeyModifiers::NONE));
         // PagerState for local use
         let mut pager = PagerState::new().unwrap();
         pager.upper_mark = usize::MAX;
@@ -236,10 +194,7 @@ fn test_saturation() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Up,
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Up, KeyModifiers::NONE));
         // PagerState for local use
         let mut pager = PagerState::new().unwrap();
         pager.upper_mark = usize::MIN;
@@ -268,10 +223,7 @@ fn test_misc_events() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('l'),
-            modifiers: KeyModifiers::CONTROL,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('l'), KeyModifiers::CONTROL));
         assert_eq!(
             Some(InputEvent::UpdateLineNumber(!pager.line_numbers)),
             handle_input(ev, &pager)
@@ -279,26 +231,17 @@ fn test_misc_events() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('q'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('q'), KeyModifiers::NONE));
         assert_eq!(Some(InputEvent::Exit), handle_input(ev, &pager));
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('c'),
-            modifiers: KeyModifiers::CONTROL,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('c'), KeyModifiers::CONTROL));
         assert_eq!(Some(InputEvent::Exit), handle_input(ev, &pager));
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('a'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('a'), KeyModifiers::NONE));
         assert_eq!(None, handle_input(ev, &pager));
     }
 }
@@ -313,10 +256,7 @@ fn test_search_bindings() {
     pager.rows = 5;
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('/'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('/'), KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::Search(SearchMode::Forward)),
             handle_input(ev, &pager)
@@ -324,10 +264,7 @@ fn test_search_bindings() {
     }
 
     {
-        let ev = Event::Key(KeyEvent {
-            code: KeyCode::Char('?'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let ev = Event::Key(KeyEvent::new(KeyCode::Char('?'), KeyModifiers::NONE));
         assert_eq!(
             Some(InputEvent::Search(SearchMode::Reverse)),
             handle_input(ev, &pager)
@@ -335,14 +272,8 @@ fn test_search_bindings() {
     }
     {
         // NextMatch and PrevMatch forward search
-        let next_event = Event::Key(KeyEvent {
-            code: KeyCode::Char('n'),
-            modifiers: KeyModifiers::NONE,
-        });
-        let prev_event = Event::Key(KeyEvent {
-            code: KeyCode::Char('p'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let next_event = Event::Key(KeyEvent::new(KeyCode::Char('n'), KeyModifiers::NONE));
+        let prev_event = Event::Key(KeyEvent::new(KeyCode::Char('p'), KeyModifiers::NONE));
 
         assert_eq!(
             pager.input_classifier.classify_input(next_event, &pager),
@@ -357,14 +288,8 @@ fn test_search_bindings() {
     {
         pager.search_mode = SearchMode::Reverse;
         // NextMatch and PrevMatch reverse search
-        let next_event = Event::Key(KeyEvent {
-            code: KeyCode::Char('n'),
-            modifiers: KeyModifiers::NONE,
-        });
-        let prev_event = Event::Key(KeyEvent {
-            code: KeyCode::Char('p'),
-            modifiers: KeyModifiers::NONE,
-        });
+        let next_event = Event::Key(KeyEvent::new(KeyCode::Char('n'), KeyModifiers::NONE));
+        let prev_event = Event::Key(KeyEvent::new(KeyCode::Char('p'), KeyModifiers::NONE));
 
         assert_eq!(
             pager.input_classifier.classify_input(next_event, &pager),

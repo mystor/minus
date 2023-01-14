@@ -15,14 +15,14 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-crossterm = "0.22.1"
-textwrap = { version = "~0.13", default-features = false, features = ["unicode-width"] }
+crossterm = "0.25.0"
+textwrap = { version = "0.16.0", default-features = false, features = ["unicode-width"] }
 thiserror = "^1"
-regex = { version = ">=1.5.5", optional = true }
+regex = { version = "1.7.1", optional = true }
 crossbeam-channel = "0.5.1"
 crossbeam-utils = "0.8.8"
 parking_lot = "0.12.1"
-once_cell = { version = "1.15.0", features = ["parking_lot"] }
+once_cell = { version = "1.17.0", features = ["parking_lot"] }
 
 [features]
 search = [ "regex" ]
